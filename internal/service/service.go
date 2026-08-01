@@ -23,7 +23,7 @@ func (s *Service) Shorten(url string) (string, error) {
 		return "", err
 	}
 
-	id, err = s.repo.NextId(url)
+	id, err := s.repo.NextId(url)
 	if err != nil {
 		return "", err
 	}
@@ -41,7 +41,7 @@ func (s *Service) Shorten(url string) (string, error) {
 	return shortenedUrl, nil
 }
 
-func isValidUrl(url string) (bol, error) {
+func isValidUrl(url string) (bool, error) {
 	u, err := pkgurl.ParseRequestURI(url)
 	if err != nil {
 		return false, err
