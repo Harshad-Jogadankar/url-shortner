@@ -31,8 +31,8 @@ func (r *Repository) NextId(ctx context.Context) (uint64, error){
 	return id, nil
 }
 
-func (r *Repository) Save(ctx context.Context, id uint64, url string) error{
-	err := r.rdb.Set(ctx, fmt.Sprintf("url:%d", id), url)
+func (r *Repository) Save(ctx context.Context, originalUrl string, shortnedUrl string) error{
+	err := r.rdb.Set(ctx, fmt.Sprintf("url:%s", originalUrl), shortenedUrl)
 	if err!= nil{
 		return err
 	}
