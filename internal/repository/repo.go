@@ -14,7 +14,7 @@ type Repository struct {
 func NewRepository () Repository{
 	redisClient := redis.NewClient(
 		&redis.Options{
-			Addr: config.get()
+			Addr: 
 		}
 	)
 
@@ -26,7 +26,7 @@ func NewRepository () Repository{
 func (r *Repository) NextId(ctx context.Context) (uint64, error){
 	id, err := r.rdb.Incr(ctx, "counter")
 	if err != nil{
-		return "", err
+		return nil, err
 	}
 	return id, nil
 }
