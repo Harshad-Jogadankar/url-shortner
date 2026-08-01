@@ -1,3 +1,14 @@
 package router
 
-func NewRouter(h *handler)
+import (
+	"net/http"
+	"url-shortner/internal/controller"
+)
+
+func NewRouter(c *controller.Controller) *http.ServeMux {
+	mux := http.NewServeMux()
+
+	mux.HandleFunc("POST /shorten", c.HandleShortener)
+
+	return mux
+}
