@@ -25,5 +25,4 @@ func Encode(counter uint64) (string, error) {
 		runes[i], runes[j] = runes[j], runes[i]
 	}
 	return string(runes), nil
-
 }
