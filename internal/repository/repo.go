@@ -15,7 +15,7 @@ type Repository struct {
 func NewRepository() *Repository {
 	redisClient := redis.NewClient(
 		&redis.Options{
-			Addr: "locahost:6379",
+			Addr: "localhost:6379",
 		},
 	)
 
