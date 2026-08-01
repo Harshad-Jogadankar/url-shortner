@@ -23,7 +23,7 @@ func (s *Service) Shorten(url string) (string, error) {
 		return "", err
 	}
 
-	id, err := s.repo.NextId(url)
+	id, err := s.repo.NextId(context.Background())
 	if err != nil {
 		return "", err
 	}
@@ -33,7 +33,7 @@ func (s *Service) Shorten(url string) (string, error) {
 		return "", err
 	}
 
-	err = s.repo.Save(context.Background, url, shortenedUrl)
+	err = s.repo.Save(context.Background(), url, shortenedUrl)
 	if err != nil {
 		return "", err
 	}
