@@ -2,6 +2,9 @@ package service
 
 import (
 	"context"
+	"fmt"
+	pkgurl "net/url"
+	"url-shortner/internal/encoder"
 	"url-shortner/internal/repository"
 )
 
@@ -14,9 +17,9 @@ func NewService(repo *repository.Repository) *Service {
 }
 
 func (s *Service) Shorten(url string) (string, error) {
-	err := isValidUrl(url)
+	ok, err := isValidUrl(url)
 
-	if err != nil {
+	if !ok {
 		return "", err
 	}
 
@@ -25,14 +28,28 @@ func (s *Service) Shorten(url string) (string, error) {
 		return "", err
 	}
 
-	err = s.repo.Save(context.Background, id, url)
+	shortenedUrl, err := encoder.Encode(id)
 	if err != nil {
 		return "", err
 	}
 
-	return nil
+	err = s.repo.Save(context.Background, url, shortenedUrl)
+	if err != nil {
+		return "", err
+	}
+
+	return shortenedUrl, nil
 }
 
-func isValidUrl(url string) error {
+func isValidUrl(url string) (bol, error) {
+	u, err := pkgurl.ParseRequestURI(url)
+	if err != nil {
+		return false, err
+	}
 
+	if u.Host == "" {
+		return false, fmt.Errorf("Empty host, enter valid url")
+	}
+
+	return true, nil
 }
