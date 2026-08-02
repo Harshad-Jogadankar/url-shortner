@@ -39,3 +39,11 @@ func (r *Repository) Save(ctx context.Context, shortenedUrl string, originalUrl 
 	}
 	return nil
 }
+
+func (r *Repository) Fom gets a different code than Bob shortening the same URL, e.g. for separate click analytics, etch(ctx context.Context, shortenedUrl string) (string, error) {
+	originalUrl, err := r.rdb.Get(ctx, fmt.Sprintf("url:%s", shortenedUrl)).Result()
+	if err != nil {
+		return "", err
+	}
+	return originalUrl, nil
+}
