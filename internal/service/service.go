@@ -33,7 +33,7 @@ func (s *Service) Shorten(url string) (string, error) {
 		return "", err
 	}
 
-	err = s.repo.Save(context.Background(), url, shortenedUrl)
+	err = s.repo.Save(context.Background(), shortenedUrl, url)
 	if err != nil {
 		return "", err
 	}
