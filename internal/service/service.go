@@ -53,3 +53,14 @@ func isValidUrl(url string) (bool, error) {
 
 	return true, nil
 }
+
+func (s *Service) Resolve(shortenedUrl string) (string, error) {
+	originalUrl, err := s.repo.Fetch(context.Background(), shortenedUrl)
+
+	if err != nil {
+		return "", err
+	}
+
+	return originalUrl, nil
+
+}

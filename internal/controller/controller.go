@@ -39,3 +39,27 @@ func (c *Controller) HandleShortener(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(resp)
 
 }
+
+func (c *Controller) HandleResolve(w http.ResponseWriter, r *http.Request) {
+	var req models.ResolveRequest
+
+	err := json.NewDecoder(r.Body).Decode(&req)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	originalUrl, err := c.svc.Resolve(req.ShortenedUrl)
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	var resp models.ResolveResponse
+	resp.OriginalUrl = originalUrl
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusFound)
+	json.NewEncoder(w).Encode(resp)
+}
