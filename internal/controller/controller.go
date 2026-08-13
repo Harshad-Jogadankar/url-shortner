@@ -63,3 +63,15 @@ func (c *Controller) HandleResolve(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusFound)
 	json.NewEncoder(w).Encode(resp)
 }
+
+func (c *Controller) HandleRedirect(w http.ResponseWriter, r *http.Request) {
+	shortUrl := r.PathValue("code")
+
+	originalUrl, err := c.svc.Resolve(shortUrl)
+	if err != nil {
+		http.Error(w, "short url not found", http.StatusNotFound)
+		return
+	}
+
+	http.Redirect(w, r, originalUrl, http.StatusFound)
+}

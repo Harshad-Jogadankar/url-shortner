@@ -10,6 +10,7 @@ func NewRouter(c *controller.Controller) *http.ServeMux {
 
 	mux.HandleFunc("POST /shorten", c.HandleShortener)
 	mux.HandleFunc("GET /resolve", c.HandleResolve)
+	mux.HandleFunc("GET /{code}", c.HandleRedirect)
 
 	return mux
 }
